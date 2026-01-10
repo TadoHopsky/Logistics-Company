@@ -26,16 +26,16 @@ public class ShippingCalculator {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    public Double calculatePrice(int cargo, int distance){
+    public Double calculatePrice(Cargo cargo){
         double finalPrice = BASE_DELIVERY_PRICE;
 
-        if(cargo > WEIGHT_THRESHOLD){
+        if(cargo.getWeight() > WEIGHT_THRESHOLD){
             double tenPercent = finalPrice * HEAVY_CARGO_SURCHARGE_RATE;
             finalPrice += tenPercent;
         }
 
-        if(distance > DISTANCE_THRESHOLD){
-            int overDistance = distance - DISTANCE_THRESHOLD;
+        if(cargo.getDistance() > DISTANCE_THRESHOLD){
+            int overDistance = cargo.getDistance() - DISTANCE_THRESHOLD;
             finalPrice = (overDistance * PRICE_PER_EXTRA_KM) + finalPrice;
         }
         return finalPrice;
