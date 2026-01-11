@@ -10,13 +10,13 @@ public class ShippingCalculator {
     private static final String STEPIC_PROMO = "STEPIC";
     private static final String BIG_CARGO_PROMO = "BIG_CARGO";
 
-    public void getFirstInfoForUser(){
+    public void getFirstInfoForUser(Scanner sc, WarehouseManager wm){
         System.out.println("""
                 Добро пожаловать в консольную утилиту для расчета стоимости доставки груза.
                 
                 Базовая стоимость доставки груза составляет 500р.
                 Если вес груза превышает 10кг, то идет наценка 10%.
-                Если расстояние > 100км - добавляем 5 руб. за каждый километр свыше первой сотни""");
+                Если расстояние > 100км - добавляем 5 руб. за каждый километр свыше первой сотни.""");
     }
 
     public void getAnswerAboutRepeat(){

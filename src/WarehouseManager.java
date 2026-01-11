@@ -1,5 +1,4 @@
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +46,6 @@ public class WarehouseManager {
             String line;
             while((line = reader.readLine()) != null){
                 String[] part = line.split(",");
-                double weight = Double.parseDouble(part[0]);
 
                 Cargo cargo = new Cargo(Double.parseDouble(part[0]),
                         Double.parseDouble(part[1]),
@@ -58,5 +56,18 @@ public class WarehouseManager {
         } catch (IOException | IllegalArgumentException e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
         }
+    }
+
+    public void findHeavyCargo(double threshold){
+        System.out.println("--- Грузы выше указанного порога ---");
+        for(Cargo c : inventory){
+            if(c.getWeight() > threshold){
+                System.out.println(c);
+            }
+        }
+    }
+
+    public void clearInventory(){
+        inventory.clear();
     }
 }
