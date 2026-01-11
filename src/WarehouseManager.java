@@ -1,6 +1,5 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +28,35 @@ public class WarehouseManager {
 
         try(PrintWriter pw = new PrintWriter(new FileWriter(fileName))){
             for(Cargo c : inventory){
-                pw.println(c.toString());
+                pw.println(c.getWeight() + "," + c.getDistance() + "," + c.getDeliveryType());
             }
             System.out.println("Данные успешно записаны в файл.");
         } catch (IOException e) {
             System.err.println("Ошибка при сохранении в файл: " + e.getMessage());
+        }
+    }
+
+    public void loadFromFile(){
+        String inventoryFileName = "inventory.txt";
+        File file = new File("inventory.txt");
+        if(!file.exists()){
+            System.out.println("Файл базы данных не найден. Начинаем с чистого листа.");
+            return;
+        }
+        try(BufferedReader reader = new BufferedReader(new FileReader(inventoryFileName))) {
+            String line;
+            while((line = reader.readLine()) != null){
+                String[] part = line.split(",");
+                double weight = Double.parseDouble(part[0]);
+
+                Cargo cargo = new Cargo(Double.parseDouble(part[0]),
+                        Double.parseDouble(part[1]),
+                        DeliveryType.valueOf(part[2]));
+
+                inventory.add(cargo);
+            }
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("Ошибка при чтении файла: " + e.getMessage());
         }
     }
 }

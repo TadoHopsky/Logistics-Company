@@ -9,6 +9,7 @@ public class Main {
         ShippingCalculator sc = new ShippingCalculator();
         WarehouseManager wm = new WarehouseManager();
 
+        wm.loadFromFile();
         sc.getFirstInfoForUser();
 
         while (true){
