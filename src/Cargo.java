@@ -1,26 +1,10 @@
 public class Cargo {
-    private String name;
     private double weight;
-    private int distance;
+    private double distance;
 
-
-    public Cargo(String name, double weight, int distance) {
-        this.name = name;
+    public Cargo(double weight, double distance) {
         this.weight = weight;
         this.distance = distance;
-    }
-
-    public Cargo(double weight, int distance) {
-        this.weight = weight;
-        this.distance = distance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getWeight() {
@@ -31,18 +15,17 @@ public class Cargo {
         this.weight = weight;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
     @Override
     public String toString() {
         return "Cargo{" +
-                "name='" + name + '\'' +
                 ", weight=" + weight +
                 ", distance=" + distance +
                 '}';

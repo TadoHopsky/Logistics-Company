@@ -16,14 +16,18 @@ public class ShippingCalculator {
                 Если расстояние > 100км - добавляем 5 руб. за каждый километр свыше первой сотни""");
     }
 
-    public Integer getCargoFromUser(Scanner scanner){
+    public Double getCargoFromUser(Scanner scanner){
         System.out.println("Введите вес груза: ");
-        return Integer.parseInt(scanner.nextLine());
+        return replaceDoubleSafe(scanner.nextLine());
     }
 
-    public Integer getDistanceFromUser(Scanner scanner){
+    public Double getDistanceFromUser(Scanner scanner){
         System.out.println("Введите дистанцию: ");
-        return Integer.parseInt(scanner.nextLine());
+        return replaceDoubleSafe(scanner.nextLine());
+    }
+
+    private Double replaceDoubleSafe(String input){
+        return Double.parseDouble(input.replace(",", "."));
     }
 
     public Double calculatePrice(Cargo cargo){
@@ -35,7 +39,7 @@ public class ShippingCalculator {
         }
 
         if(cargo.getDistance() > DISTANCE_THRESHOLD){
-            int overDistance = cargo.getDistance() - DISTANCE_THRESHOLD;
+            double overDistance = cargo.getDistance() - DISTANCE_THRESHOLD;
             finalPrice = (overDistance * PRICE_PER_EXTRA_KM) + finalPrice;
         }
         return finalPrice;
