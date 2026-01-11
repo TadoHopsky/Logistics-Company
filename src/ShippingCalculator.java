@@ -7,6 +7,9 @@ public class ShippingCalculator {
     private static final int DISTANCE_THRESHOLD = 100;
     private static final int PRICE_PER_EXTRA_KM = 5;
 
+    private static final String STEPIC_PROMO = "STEPIC";
+    private static final String BIG_CARGO_PROMO = "BIG_CARGO";
+
     public void getFirstInfoForUser(){
         System.out.println("""
                 Добро пожаловать в консольную утилиту для расчета стоимости доставки груза.
@@ -14,6 +17,10 @@ public class ShippingCalculator {
                 Базовая стоимость доставки груза составляет 500р.
                 Если вес груза превышает 10кг, то идет наценка 10%.
                 Если расстояние > 100км - добавляем 5 руб. за каждый километр свыше первой сотни""");
+    }
+
+    public void getAnswerAboutRepeat(){
+        System.out.println("Хотите рассчитать еще одну доставку? (yes/no)");
     }
 
     public Double getCargoFromUser(Scanner scanner){
@@ -45,25 +52,31 @@ public class ShippingCalculator {
         };
     }
 
-    public Double calculatePrice(Cargo cargo){
+    public Double calculatePrice(Cargo cargo, String promo){
         double finalPrice = BASE_DELIVERY_PRICE;
 
-        if(cargo.getWeight() > WEIGHT_THRESHOLD){
-            double tenPercent = finalPrice * HEAVY_CARGO_SURCHARGE_RATE;
-            finalPrice += tenPercent;
+        // 1. Наценка за вес (проверяем промокод BIG_CARGO)
+        if(cargo.getWeight() > WEIGHT_THRESHOLD && !BIG_CARGO_PROMO.equalsIgnoreCase(promo)){
+            finalPrice += finalPrice * HEAVY_CARGO_SURCHARGE_RATE;
         }
 
-        if(cargo.getDistance() > DISTANCE_THRESHOLD){
+        // 2. Наценка за дистанцию (всегда)
+        if (cargo.getDistance() > DISTANCE_THRESHOLD) {
             double overDistance = cargo.getDistance() - DISTANCE_THRESHOLD;
-            finalPrice = (overDistance * PRICE_PER_EXTRA_KM) + finalPrice;
+            finalPrice += (overDistance * PRICE_PER_EXTRA_KM);
         }
 
-        if(cargo.getDeliveryType() == DeliveryType.EXPRESS){
+        // 3. Наценка за тип доставки (всегда)
+        if (cargo.getDeliveryType() == DeliveryType.EXPRESS) {
             finalPrice *= 1.5;
         } else if (cargo.getDeliveryType() == DeliveryType.FRAGILE) {
             finalPrice += 300;
         }
 
+        // 4. Финальная скидка по промокоду STEPIC
+        if (STEPIC_PROMO.equalsIgnoreCase(promo)) {
+            finalPrice *= 0.9; // Скидка 10%
+        }
         return finalPrice;
     }
 }

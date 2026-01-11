@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Main {
+
+    private static final double DOLLAR_EXCHANGE_RATE = 90.0;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ShippingCalculator sc = new ShippingCalculator();
@@ -16,14 +19,21 @@ public class Main {
                     System.err.println("Ошибка: данные должны быть положительными");
                     continue;
                 }
+
+                System.out.println("Есть промокод? Введите его или нажмите Enter, чтобы пропустить:");
+                String promo = scanner.nextLine();
+
                 Cargo cargoModel = new Cargo(cargo, distance, deliveryType);
 
-                System.out.println("Расчет для " + cargoModel + ": " + sc.calculatePrice(cargoModel));
+                double total = sc.calculatePrice(cargoModel, promo);
+                System.out.println("Итог: " + total + " руб.");
+                System.out.println("Итог: " + Math.ceil(total / DOLLAR_EXCHANGE_RATE) + " USD.");
+
             }catch (NumberFormatException e){
                 System.err.println("Ошибка вода от пользователя\nОжидается число\n" + e);
             }
 
-            System.out.println("Хотите рассчитать еще одну доставку? (yes/no)");
+            sc.getAnswerAboutRepeat();
             String userInput = scanner.nextLine();
 
             if(!userInput.equalsIgnoreCase("yes")){
