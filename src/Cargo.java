@@ -23,6 +23,6 @@ public class Cargo {
 
     @Override
     public String toString() {
-        return "Вес груза: " + weight + ", Дистанция: " + distance + "Тип доставки: " + getDeliveryType();
+        return "Вес: " + weight + ", Дистанция: " + distance + ", Тип доставки: " + deliveryType;
     }
 }

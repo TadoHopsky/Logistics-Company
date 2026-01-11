@@ -7,6 +7,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ShippingCalculator sc = new ShippingCalculator();
+        WarehouseManager wm = new WarehouseManager();
+
         sc.getFirstInfoForUser();
 
         while (true){
@@ -29,6 +31,11 @@ public class Main {
                 System.out.println("Итог: " + total + " руб.");
                 System.out.println("Итог: " + Math.ceil(total / DOLLAR_EXCHANGE_RATE) + " USD.");
 
+                System.out.println("Добавить этот расчет в базу склада? (yes/no)");
+                if(scanner.nextLine().equalsIgnoreCase("yes")){
+                    wm.addCargo(cargoModel);
+                }
+
             }catch (NumberFormatException e){
                 System.err.println("Ошибка вода от пользователя\nОжидается число\n" + e);
             }
@@ -40,6 +47,9 @@ public class Main {
                 break;
             }
         }
+        wm.showAllCargo();
+        wm.saveToFile();
+
         scanner.close();
     }
 }
