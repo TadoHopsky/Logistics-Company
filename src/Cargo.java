@@ -1,10 +1,25 @@
 public class Cargo {
+    private DeliveryType deliveryType;
     private double weight;
     private double distance;
+
+    public Cargo(double distance, double weight, DeliveryType deliveryType) {
+        this.distance = distance;
+        this.weight = weight;
+        this.deliveryType = deliveryType;
+    }
 
     public Cargo(double weight, double distance) {
         this.weight = weight;
         this.distance = distance;
+    }
+
+    public DeliveryType getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(DeliveryType deliveryType) {
+        this.deliveryType = deliveryType;
     }
 
     public double getWeight() {
@@ -25,9 +40,7 @@ public class Cargo {
 
     @Override
     public String toString() {
-        return "Cargo{" +
-                ", weight=" + weight +
-                ", distance=" + distance +
-                '}';
+        return "Вес груза: " + weight +
+                ", Дистанция: " + distance;
     }
 }

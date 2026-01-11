@@ -30,6 +30,21 @@ public class ShippingCalculator {
         return Double.parseDouble(input.replace(",", "."));
     }
 
+    public DeliveryType getDeliveryType (Scanner scanner){
+        System.out.println("""
+                Введите тип доставки:
+                1.Standard
+                2.EXPRESS + 50% к итоговой сумме
+                3.FRAGILE + 300р (Хрупкий груз | фиксировано)""");
+        String inputDeliveryType = scanner.nextLine();
+
+        return switch (inputDeliveryType){
+            case "2" -> DeliveryType.EXPRESS;
+            case "3" -> DeliveryType.FRAGILE;
+            default -> DeliveryType.STANDARD;
+        };
+    }
+
     public Double calculatePrice(Cargo cargo){
         double finalPrice = BASE_DELIVERY_PRICE;
 
@@ -42,6 +57,13 @@ public class ShippingCalculator {
             double overDistance = cargo.getDistance() - DISTANCE_THRESHOLD;
             finalPrice = (overDistance * PRICE_PER_EXTRA_KM) + finalPrice;
         }
+
+        if(cargo.getDeliveryType() == DeliveryType.EXPRESS){
+            finalPrice *= 1.5;
+        } else if (cargo.getDeliveryType() == DeliveryType.FRAGILE) {
+            finalPrice += 300;
+        }
+
         return finalPrice;
     }
 }
